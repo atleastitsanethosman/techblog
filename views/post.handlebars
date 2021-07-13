@@ -1,12 +1,18 @@
 <div class="text-center">
   <h2>{{name}}</h2>
   <p>{{description}}</p>
-  <p>Created by {{user.name}} on {{format_date date_created}}</p>
+  <p>Posted by {{user.name}} on {{format_date date_created}}</p>
 </div>
+{{#if logged_in}}
+<a href="/comment">Add a Comment</a> |
+<button class="no-button" id="comment"></button>
+{{else}}
+<p>Login to add comments</p>
+{{/if}}
 <div class="text-justify">
   {{#each comments}}
   <p>{{comment_text}}</p>
-  <h4>{{format_date date_created}}  {{user_id}}</h4>
+  <h6>{{format_date date_created}} by {{user.name}}</h6>
   {{else}}
   <p>No Comments yet</p>
   {{/each}}

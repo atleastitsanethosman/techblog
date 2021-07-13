@@ -37,7 +37,15 @@ router.get('/post/:id', async (req, res) => {
         },
         {
           model: Comment,
-          attributes: ['comment_text', 'date_created', 'user_id']
+          separate: true,
+          order: [
+            'date_created'
+          ],
+          attributes: ['comment_text', 'date_created', 'user_id'],
+          include: {
+            model: User,
+            attributes: ['name']
+          }
         }
       ],
     });
@@ -53,6 +61,7 @@ router.get('/post/:id', async (req, res) => {
   }
 });
 
+// test route to view object in postman
 router.get('/posts/:id', async (req, res) => {
   try {
     const postData = await Post.findOne({where: {id: req.params.id},
@@ -63,7 +72,15 @@ router.get('/posts/:id', async (req, res) => {
         },
         {
           model: Comment,
-          attributes: ['comment_text', 'date_created', 'user_id']
+          separate: true,
+          order: [
+            'date_created'
+          ],
+          attributes: ['comment_text', 'date_created', 'user_id'],
+          include: {
+            model: User,
+            attributes: ['name']
+          }
         }
       ],
     });
@@ -80,6 +97,38 @@ router.get('/posts/:id', async (req, res) => {
 });
 
 
+//route to pull post data into form to edit.
+router.get('/postedit/:id', async (req, res) => {
+  try {
+    const postData = await Post.findOne({where: {id: req.params.id}
+    });
+
+    const post = postData.get({ plain: true });
+
+    res.render('postEdit', {
+      ...post,
+      logged_in: req.session.logged_in
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//test pull for postman
+router.get('/postedits/:id', async (req, res) => {
+  try {
+    const postData = await Post.findOne({where: {id: req.params.id}});
+
+    const post = postData.get({ plain: true });
+
+    res.json({
+      ...post,
+      logged_in: req.session.logged_in
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 // Use withAuth middleware to prevent access to route
 router.get('/profile', withAuth, async (req, res) => {

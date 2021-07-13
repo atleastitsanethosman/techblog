@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Post } = require('../../models');
+const { Post, Comment, User } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 router.post('/', withAuth, async (req, res) => {
@@ -14,6 +14,15 @@ router.post('/', withAuth, async (req, res) => {
     res.status(400).json(err);
   }
 });
+
+router.put('/edit/:id', (req, res) => {
+  Submission.update(req.body, {where: {
+    id: req.params.id,
+    user_id: req.session.user_id}
+  }).then((updatedSubmission) => res.json(updatedSubmission)).catch((err) => {
+      res.status(400).json(err)
+  })
+})
 
 router.delete('/:id', withAuth, async (req, res) => {
   try {
