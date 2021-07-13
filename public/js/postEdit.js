@@ -3,6 +3,7 @@ const newFormHandler = async (event) => {
 
   const name = document.querySelector('#post-name').value.trim();
   const description = document.querySelector('#post-desc').value.trim();
+  const id = document.querySelector('#post-id').innerHTML;
 
   if (name && description) {
     const response = await fetch(`/api/post/edit/${id}`, {

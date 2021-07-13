@@ -16,10 +16,10 @@ router.post('/', withAuth, async (req, res) => {
 });
 
 router.put('/edit/:id', (req, res) => {
-  Submission.update(req.body, {where: {
+  Post.update(req.body, {where: {
     id: req.params.id,
     user_id: req.session.user_id}
-  }).then((updatedSubmission) => res.json(updatedSubmission)).catch((err) => {
+  }).then((updatedPost) => res.json(updatedPost)).catch((err) => {
       res.status(400).json(err)
   })
 })
