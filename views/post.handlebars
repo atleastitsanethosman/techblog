@@ -1,19 +1,35 @@
-<div class="text-center">
+<div class="text-center card">
   <h2>{{name}}</h2>
-  <p>{{description}}</p>
   <p>Posted by {{user.name}} on {{format_date date_created}}</p>
+  <p>{{description}}</p>
 </div>
-{{#if logged_in}}
-<a href="/comment">Add a Comment</a> |
-<button class="no-button" id="comment"></button>
-{{else}}
-<p>Login to add comments</p>
-{{/if}}
-<div class="text-justify">
+<div class="text-center">
   {{#each comments}}
-  <p>{{comment_text}}</p>
-  <h6>{{format_date date_created}} by {{user.name}}</h6>
+  <div class="card">
+    <p>{{comment_text}}</p>
+    <h6>{{format_date date_created}} by {{user.name}}</h6>
+  </div>
   {{else}}
   <p>No Comments yet</p>
   {{/each}}
 </div>
+{{#if logged_in}}
+<div class="row mt-4 card">
+  <div class="col-md-6">
+    <h3>Add a comment:</h3>
+
+    <form class="form new-comment-form">
+      <div class="form-group">
+        <label for="comment-desc">Comment:</label>
+        <textarea class="form-input" id="comment-text" name="comment-text" data-id="{{id}}"></textarea>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </div>
+
+<script src="/js/comment.js"></script>
+{{else}}
+<h5 class="text-center">Login to add comments</h5>
+{{/if}}
